@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background-color : #181818;
+  --select-recent : #312EB5;
+  --folder-section: #1C1C1C;
+  --note-card: #FFFFFF08;
+  --underline-color : #FFFFFF1A;
+
+}
+
+
+body{
+  font-family: "Source Sans 3", sans-serif;
+}
