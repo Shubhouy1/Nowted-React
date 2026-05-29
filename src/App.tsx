@@ -1,14 +1,12 @@
 import './App.css'
-import Editorpanel from './components/editorpanel/editor'
-import FolderList from './components/folderLIst/folderList'
-import Sidebar from './components/Sidebar'
+import {Routes , Route} from 'react-router-dom'
+import AppLayout from './layouts/AppLayout'
 function App() {
   return (
-    <div className ="grid grid-cols-[300px_350px_1fr] bg-(--background-color)">
-       <Sidebar />
-       <FolderList />
-       <Editorpanel />
-    </div>
+    <Routes>
+      <Route path="/" element={<AppLayout />} />
+      <Route path="/notes/:noteId" element={<AppLayout />} />
+    </Routes>
   )
 }
 
