@@ -6,6 +6,7 @@ function App() {
     <Routes>
       <Route path="/" element={<AppLayout />} />
       <Route path="/notes/:noteId" element={<AppLayout />} />
+      <Route path ="/folders/:folderId" element={<AppLayout />}/> 
     </Routes>
   )
 }

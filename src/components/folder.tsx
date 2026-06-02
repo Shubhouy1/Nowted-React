@@ -4,9 +4,12 @@ import closeFolder from '../assets/close.svg'
 import type { folderInfo, GetFolderDataResponse } from '../types/folderData'
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
+import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 function FolderSection (){
   const [folder,setFolder] = useState<folderInfo[]>([])
+  const {folderId} = useParams()
   useEffect(()=>{
     async function getFolders(){
     try{
@@ -25,21 +28,16 @@ function FolderSection (){
        <img className='pr-5' src={upload_folder}/>
       </div>
      {folder.map((folder)=>{
+      const isActive = folder.id===folderId
       return (
-      <div key ={folder.id} className='pl-3 flex flex-row gap-3 bg-white/6 p-2'>
-       <img className='h-5 w-5' src={openFolder}  />
-       <span className='text-sm font-sans text-white font-semibold'>{folder.name}</span>
-      </div>
+        <Link key ={folder.id} to ={`/folders/${folder.id}`}>
+          <div  className={`pl-3 flex flex-row gap-3 transition-all duration-200 ${isActive?"bg-white/6 p-2":""}`}>
+            <img className='h-5 w-5' src={isActive ? openFolder : closeFolder} />
+            <span className={`text-sm font-sans ${isActive ?"text-white" : "text-white/60 " } font-semibold`}>{folder.name}</span>
+          </div>
+        </Link>
       )
      })}
-      {/* <div className='pl-3 flex flex-row gap-3 bg-white/6 p-2'>
-       <img className='h-5 w-5' src={openFolder}  />
-       <span className='text-sm font-sans text-white font-semibold'>Personal</span>
-      </div>
-      <div className='pl-3 flex flex-row gap-3 '>
-       <img className='h-5 w-5' src={closeFolder}  />
-       <span className='text-sm font-sans text-white/60 font-semibold'>Personal</span>
-      </div> */}
     </div>
     )
 }
