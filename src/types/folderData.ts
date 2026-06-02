@@ -5,3 +5,7 @@ export type folderInfo ={
     updatedAt : string,
     deletedAt : string | null
 }
+
+export type GetFolderDataResponse ={
+    folders : folderInfo[]
+}
