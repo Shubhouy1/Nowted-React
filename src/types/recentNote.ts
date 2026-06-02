@@ -8,7 +8,7 @@ export type recentNotes ={
     isArchived : boolean,
     createdAt : string,
     updatedAt : string,
-    deletedAt : string,
+    deletedAt : string | null ,
     preview : string,
     folder : folderInfo
 }
