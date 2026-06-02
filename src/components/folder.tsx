@@ -27,17 +27,19 @@ function FolderSection (){
        <p className='text-sm font-sans text-white/60 font-semibold px-3'>Folders</p>
        <img className='pr-5' src={upload_folder}/>
       </div>
-     {folder.map((folder)=>{
-      const isActive = folder.id===folderId
-      return (
-        <Link key ={folder.id} to ={`/folders/${folder.id}`}>
-          <div  className={`pl-3 flex flex-row gap-3 transition-all duration-200 ${isActive?"bg-white/6 p-2":""}`}>
-            <img className='h-5 w-5' src={isActive ? openFolder : closeFolder} />
-            <span className={`text-sm font-sans ${isActive ?"text-white" : "text-white/60 " } font-semibold`}>{folder.name}</span>
-          </div>
-        </Link>
-      )
-     })}
+      <div className='max h-40 overflow-y-auto flex flex-col gap-3'>
+      {folder.map((folder)=>{
+        const isActive = folder.id===folderId
+        return (
+          <Link key ={folder.id} to ={`/folders/${folder.id}`}>
+            <div  className={`pl-3 flex flex-row gap-3 transition-all duration-200 ${isActive?"bg-white/6 p-2":""}`}>
+              <img className='h-5 w-5' src={isActive ? openFolder : closeFolder} />
+              <span className={`text-sm font-sans ${isActive ?"text-white" : "text-white/60 " } font-semibold`}>{folder.name}</span>
+            </div>
+          </Link>
+        )
+      })}
+     </div>
     </div>
     )
 }
