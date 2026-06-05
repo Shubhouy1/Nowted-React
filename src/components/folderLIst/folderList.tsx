@@ -1,6 +1,6 @@
 import Notecard from "./notecard"
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import api from "../../api/axios"
 import type { Note,GetNotesResponseType } from "../../types/Note"
 import type { GetFolderDataResponse } from "../../types/folderData"
@@ -42,11 +42,14 @@ function FolderList (){
         </div >
         <div className="px-5 flex flex-col gap-4">
         {notes.map((note)=>(
-         <Notecard
+        <Link key={note.id} to={`/folders/${folderId}/notes/${note.id}`}>
+         <Notecard 
+        
           title={note.title}
           date={note.createdAt}
           preview={note.preview ??""}
          />
+         </Link>
          ))}
         </div>
        </div>

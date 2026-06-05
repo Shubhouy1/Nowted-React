@@ -7,6 +7,7 @@ function App() {
       <Route path="/" element={<AppLayout />} />
       <Route path="/notes/:noteId" element={<AppLayout />} />
       <Route path ="/folders/:folderId" element={<AppLayout />}/> 
+      <Route path ="/folders/:folderId/notes/:noteId" element={<AppLayout />}/> 
     </Routes>
   )
 }
