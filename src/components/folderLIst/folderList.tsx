@@ -6,17 +6,13 @@ import type { Note,GetNotesResponseType } from "../../types/Note"
 function FolderList (){
   const {folderId} = useParams()
   const [notes,setNotes] = useState<Note[]>([])
+  
   useEffect(()=>{
     async function getNotes(){
       try{
-        const response=await api.get<GetNotesResponseType>("/notes");
-        console.log("folderID",folderId)
-        const folderNotes = response.data.notes.filter((note)=>{
-          console.log(note.folderId,note.title)
-          return note.folderId===folderId
-        })
-        setNotes(folderNotes)
-        console.log(folderNotes)
+        const response=await api.get<GetNotesResponseType>(`/notes?folderId=${folderId}&page=1&limit=10`);
+        setNotes(response.data.notes)
+        console.log(response.data.notes)
       }catch(error){
         console.log(error);
       }
