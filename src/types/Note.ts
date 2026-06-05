@@ -4,8 +4,9 @@ export type Note ={
     folderId :string
     title : string
     content:string
+    preview?: string
     isFavorite : boolean
-    isarchived : boolean
+    isArchived : boolean
     createdAt : string
     updatedAt : string
     deletedAt : string | null
@@ -14,4 +15,7 @@ export type Note ={
 
 export type GetNoteResponseType ={
     note : Note
+}
+export type GetNotesResponseType ={
+    notes : Note[]
 }

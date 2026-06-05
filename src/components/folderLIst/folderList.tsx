@@ -1,52 +1,41 @@
 import Notecard from "./notecard"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import api from "../../api/axios"
+import type { Note,GetNotesResponseType } from "../../types/Note"
 function FolderList (){
+  const {folderId} = useParams()
+  const [notes,setNotes] = useState<Note[]>([])
+  useEffect(()=>{
+    async function getNotes(){
+      try{
+        const response=await api.get<GetNotesResponseType>("/notes");
+        console.log("folderID",folderId)
+        const folderNotes = response.data.notes.filter((note)=>{
+          console.log(note.folderId,note.title)
+          return note.folderId===folderId
+        })
+        setNotes(folderNotes)
+        console.log(folderNotes)
+      }catch(error){
+        console.log(error);
+      }
+    }
+    getNotes();
+  },[folderId])
     return (
         <div className='flex flex-col bg-(--folder-section) h-full gap-5'>
         <div className='pt-5 pl-5'>
-          <p className="text-[22px] font-semibold leading-none text-white">Personal</p>
+          <p className="text-[22px] font-semibold leading-none text-white">{notes[0]?.folder?.name}</p>
         </div >
         <div className="px-5 flex flex-col gap-4">
+        {notes.map((note)=>(
          <Notecard
-          title="My Goals for the Next Year"
-          date="31/12/2022"
-          preview="As the year comes to a ..."
-        />
-
-        <Notecard
-          title="Reflection on the Month of June"
-          date="21/06/2022"
-          preview="It's hard to believe that ..."
-        />
-
-        <Notecard
-          title="My Favorite Memories from Childhood"
-          date="11/04/2022"
-          preview="I was reminiscing about ..."
-        />
-
-        <Notecard
-          title="Reflections on My First Year of College"
-          date="08/04/2022"
-          preview="It's hard to believe that ..."
-        />
-
-        <Notecard
-          title="My Experience with Meditation"
-          date="24/03/2022"
-          preview="I've been trying to ..."
-        />
-
-        <Notecard
-          title="Thoughts on the Pandemic"
-          date="01/02/2021"
-          preview="It's hard to believe that ..."
-        />
-
-        <Notecard
-          title="My Favorite Recipes"
-          date="08/01/2021"
-          preview="I love cooking and trying ..."
-        />
+          title={note.title}
+          date={note.createdAt}
+          preview={note.preview ??""}
+         />
+         ))}
         </div>
        </div>
     )
