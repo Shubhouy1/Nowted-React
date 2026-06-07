@@ -5,7 +5,7 @@ import type { folderInfo, GetFolderDataResponse } from '../types/folderData'
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
 import { Link } from 'react-router-dom'
-import { useParams,useNavigate } from 'react-router-dom'
+import { useParams,useNavigate,useLocation} from 'react-router-dom'
 
 type FolderSectionProps={
    setfolderName  : React.Dispatch<React.SetStateAction<string>>
@@ -15,6 +15,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
   const [folder,setFolder] = useState<folderInfo[]>([])
   const {folderId} = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   useEffect(()=>{
     async function getFolders(){
     try{
@@ -35,12 +36,12 @@ function FolderSection ({setfolderName}:FolderSectionProps){
       }
   },[folderId,folder])
   useEffect(()=>{
-    if(!folderId&& folder.length>0){
+    if(location.pathname==="/"&& folder.length>0){
         const firstFolder = folder[0]
         setfolderName(firstFolder.name)
         navigate(`/folders/${folder[0].id}`)
       }
-  },[folder,folderId])
+  },[folder,location.pathname])
     return (
     <div className='flex flex-col gap-3'>
       <div className="flex flex-row justify-between pt-2">
