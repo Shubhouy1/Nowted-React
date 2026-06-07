@@ -7,7 +7,11 @@ import api from '../api/axios'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
-function FolderSection (){
+type FolderSectionProps={
+   setfolderName  : React.Dispatch<React.SetStateAction<string>>
+}
+
+function FolderSection ({setfolderName}:FolderSectionProps){
   const [folder,setFolder] = useState<folderInfo[]>([])
   const {folderId} = useParams()
   useEffect(()=>{
@@ -21,6 +25,14 @@ function FolderSection (){
     }
     getFolders();
   },[])
+  useEffect(()=>{
+    const currFolder = folder.find(
+      (item)=>item.id===folderId
+    )
+      if(currFolder){
+        setfolderName(currFolder.name)
+      }
+  },[folderId,folder])
     return (
     <div className='flex flex-col gap-3'>
       <div className="flex flex-row justify-between pt-2">
@@ -31,7 +43,7 @@ function FolderSection (){
       {folder.map((folder)=>{
         const isActive = folder.id===folderId
         return (
-          <Link key ={folder.id} to ={`/folders/${folder.id}`}>
+          <Link key ={folder.id} to ={`/folders/${folder.id}`} onClick={()=>setfolderName(folder.name)}>
             <div  className={`pl-3 flex flex-row gap-3 transition-all duration-200 ${isActive?"bg-white/6 p-2":""}`}>
               <img className='h-5 w-5' src={isActive ? openFolder : closeFolder} />
               <span className={`text-sm font-sans ${isActive ?"text-white" : "text-white/60 " } font-semibold`}>{folder.name}</span>

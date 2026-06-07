@@ -3,11 +3,13 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import api from "../../api/axios"
 import type { Note,GetNotesResponseType } from "../../types/Note"
-import type { GetFolderDataResponse } from "../../types/folderData"
-function FolderList (){
+
+type folderListProps={
+  folderName : string
+}
+function FolderList ({folderName}:folderListProps){
   const {folderId} = useParams()
   const [notes,setNotes] = useState<Note[]>([])
-  const [folderName , setfolderName] = useState<string>("")
   useEffect(()=>{
     async function getNotes(){
       try{
@@ -20,21 +22,7 @@ function FolderList (){
     }
     getNotes();
   },[folderId])
-  useEffect(()=>{
-    async function getFolder(){
-       try{
-        const response=await api.get<GetFolderDataResponse>(`/folders`);
-        const selecteddolder =response.data.folders.find(
-          (folder)=>folder.id===folderId
-        )
-        setfolderName(selecteddolder?.name||"")
-      }catch(error){
-        console.log(error);
-      }
-    }
-    getFolder()
-  },[folderId])
-  
+
     return (
         <div className='flex flex-col bg-(--folder-section) h-full gap-5'>
         <div className='pt-5 pl-5'>
