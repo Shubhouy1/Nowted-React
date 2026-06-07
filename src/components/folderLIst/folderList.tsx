@@ -6,8 +6,9 @@ import type { Note,GetNotesResponseType } from "../../types/Note"
 
 type folderListProps={
   folderName : string
+  refreshNotes : number
 }
-function FolderList ({folderName}:folderListProps){
+function FolderList ({folderName,refreshNotes}:folderListProps){
   const {folderId,noteId} = useParams()
   const [notes,setNotes] = useState<Note[]>([])
   
@@ -22,7 +23,7 @@ function FolderList ({folderName}:folderListProps){
       }
     }
     getNotes();
-  },[folderId])
+  },[folderId,refreshNotes])
 
     return (
         <div className='flex flex-col bg-(--folder-section) h-full gap-5'>

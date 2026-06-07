@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react'
 import type { GetNoteResponseType, Note } from '../../types/Note'
 import api from '../../api/axios'
 import document_icon from '../../assets/note.svg'
-function Editorpanel(){
+
+type EditorPanelProps={
+    setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
+}
+function Editorpanel({setRefreshNotes}:EditorPanelProps){
     const {noteId} = useParams()
     const [note ,setNote] = useState<Note| null>(null)
     const [title,setTitle] = useState<string>("")
@@ -31,6 +35,35 @@ function Editorpanel(){
             setContent(note.content ?? "")
         }
     },[note])
+
+    async function saveNote(){
+        if(!noteId|| !note){
+            return
+        }
+        try{
+            await api.patch(`/notes/${noteId}`,{
+                folderId :note.folder.id,
+                title,
+                content,
+                isfavourite :note.isFavorite,
+                isArchived : note.isArchived
+            })
+            setRefreshNotes(prev=>prev+1)
+        }catch(error){
+           console.log(error)
+        }
+    }
+    useEffect(()=>{
+        if(!note) return
+        if(title===note.title && content ===note.content){
+            return
+        }
+        const timer = setTimeout(()=>{
+            saveNote()
+        },2000)
+        return ()=>clearTimeout(timer)
+    },[title,content,note])
+    
 
     if(!noteId){
         return (

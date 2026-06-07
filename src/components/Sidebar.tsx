@@ -5,14 +5,15 @@ import MoreSection from "./More"
 
 type SideBarProps ={
     setfolderName  : React.Dispatch<React.SetStateAction<string>>
+    refreshNotes : number
 }
 
-function Sidebar ({setfolderName} : SideBarProps){
+function Sidebar ({setfolderName,refreshNotes} : SideBarProps){
     return (
    <aside className='flex flex-col gap-6 h-full overflow-y-auto'>
     <SidebarItem />
     {/* recent section */}
-    <Recent />
+    <Recent refreshNotes ={refreshNotes}/>
 
     {/*Folders*/}
      <FolderSection setfolderName={setfolderName}/>

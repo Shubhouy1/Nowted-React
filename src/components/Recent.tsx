@@ -5,7 +5,11 @@ import api from '../api/axios'
 import type { recentNotes } from '../types/recentNote'
 import type { GetRecentNotesResponseType } from '../types/recentNote'
 import { Link ,useParams } from "react-router-dom";
-function Recent(){
+
+type RecentProps={
+  refreshNotes : number
+}
+function Recent({refreshNotes} : RecentProps){
   const[recentNote , setRecentNote]= useState<recentNotes[]>([])
   const {noteId} =useParams();
     useEffect(()=>{
@@ -18,12 +22,10 @@ function Recent(){
         }
       }
       GetRecent();
-    },[])
+    },[refreshNotes])
     return (
-      
     <div className='flex flex-col gap-1 ' >
       <span className='text-left text-white/60 text-sm font-sans pl-3 pb-2 font-semibold '>Recents</span>
-     
       {recentNote.map((note)=>{
         const isActive = note.id === noteId;
         return (

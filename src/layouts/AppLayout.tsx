@@ -6,11 +6,12 @@ import Sidebar from '../components/Sidebar'
 
 function AppLayout(){
     const [folderName, setfolderName] = useState<string>("")
+    const [refreshNotes, setRefreshNotes] = useState<number>(0)
     return (
     <div className ="grid grid-cols-[300px_350px_1fr] bg-(--background-color)">
-       <Sidebar setfolderName = {setfolderName}/>
-       <FolderList folderName = {folderName}/>
-       <Editorpanel />
+       <Sidebar setfolderName = {setfolderName} refreshNotes={refreshNotes}/>
+       <FolderList folderName = {folderName} refreshNotes={refreshNotes}/>
+       <Editorpanel setRefreshNotes={setRefreshNotes}/>
     </div>
     )
 }
