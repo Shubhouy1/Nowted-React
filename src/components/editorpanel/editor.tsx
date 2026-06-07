@@ -9,6 +9,8 @@ import document_icon from '../../assets/note.svg'
 function Editorpanel(){
     const {noteId} = useParams()
     const [note ,setNote] = useState<Note| null>(null)
+    const [title,setTitle] = useState<string>("")
+    const [content,setContent] = useState<string>("")
     useEffect(()=>{
         async function fetchNote(){
             if(!noteId){
@@ -23,6 +25,12 @@ function Editorpanel(){
         }
         fetchNote()
     },[noteId])
+    useEffect(()=>{
+        if(note){
+            setTitle(note.title)
+            setContent(note.content ?? "")
+        }
+    },[note])
 
     if(!noteId){
         return (
@@ -38,9 +46,9 @@ function Editorpanel(){
     }
     return (
         <div className='h-screen overflow-y-auto w-full flex flex-col gap-5'>
-         <Title titleText={note?.title}/>
+         <Title titleText={title} setTitle ={setTitle}/>
          <Info createdAt ={note?.createdAt} folder ={note?.folder?.name}/>
-         <Description content ={note?.content}/>
+         <Description content ={content} setContent={setContent}/>
         </div>
     )
 }
