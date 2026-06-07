@@ -8,8 +8,9 @@ type folderListProps={
   folderName : string
 }
 function FolderList ({folderName}:folderListProps){
-  const {folderId} = useParams()
+  const {folderId,noteId} = useParams()
   const [notes,setNotes] = useState<Note[]>([])
+  
   useEffect(()=>{
     async function getNotes(){
       try{
@@ -29,16 +30,19 @@ function FolderList ({folderName}:folderListProps){
             <p className="text-[22px] font-semibold leading-none text-white">{folderName}</p>
         </div >
         <div className="px-5 flex flex-col gap-4">
-        {notes.map((note)=>(
+        {notes.map((note)=>{
+         const isActive = noteId ===note.id
+         return(
         <Link key={note.id} to={`/folders/${folderId}/notes/${note.id}`}>
          <Notecard 
-        
           title={note.title}
           date={note.createdAt}
           preview={note.preview ??""}
+          isActive= {isActive}
          />
          </Link>
-         ))}
+         )
+        })}
         </div>
        </div>
     )
