@@ -13,11 +13,13 @@ type FolderSectionProps={
 
 function FolderSection ({setfolderName}:FolderSectionProps){
   const [folder,setFolder] = useState<folderInfo[]>([])
+  const [isCreatingFolder, setIscreatingFolder] = useState<boolean>(false)
+  const [newFolderName, setNewFolderName] = useState<string>("")
   const {folderId} = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  useEffect(()=>{
-    async function getFolders(){
+
+  async function getFolders(){
     try{
       const response = await api.get<GetFolderDataResponse>(`/folders`)
       setFolder(response.data.folders)
@@ -25,6 +27,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
       console.log(error)
     }
     }
+  useEffect(()=>{
     getFolders();
   },[])
   useEffect(()=>{
@@ -42,13 +45,36 @@ function FolderSection ({setfolderName}:FolderSectionProps){
         navigate(`/folders/${folder[0].id}`)
       }
   },[folder,location.pathname])
+
+  async function createFolder(){
+    if(!newFolderName.trim()){
+      return
+    }
+    try{
+      await api.post("/folders",{
+        name : newFolderName
+      })
+      setNewFolderName("")
+      setIscreatingFolder(false)
+      getFolders()
+    }catch(error){
+      console.log(error)
+    }
+  }
     return (
     <div className='flex flex-col gap-3'>
       <div className="flex flex-row justify-between pt-2">
        <p className='text-sm font-sans text-white/60 font-semibold px-3'>Folders</p>
-       <img className='pr-5' src={upload_folder}/>
+       <img className='pr-5' src={upload_folder} onClick={()=>setIscreatingFolder(true)}/>
       </div>
       <div className='max h-40 overflow-y-auto flex flex-col gap-3'>
+      {isCreatingFolder &&(
+        <input autoFocus value={newFolderName} onChange={(e)=>setNewFolderName(e.target.value)} placeholder='Enter Folder Name' onKeyDown={(e)=>{
+          if(e.key==="Enter"){
+            createFolder()
+          }
+        }}/>
+      )}
       {folder.map((folder)=>{
         const isActive = folder.id===folderId
         return (
