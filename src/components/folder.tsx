@@ -65,15 +65,23 @@ function FolderSection ({setfolderName}:FolderSectionProps){
     <div className='flex flex-col gap-3'>
       <div className="flex flex-row justify-between pt-2">
        <p className='text-sm font-sans text-white/60 font-semibold px-3'>Folders</p>
-       <img className='pr-5' src={upload_folder} onClick={()=>setIscreatingFolder(true)}/>
+       <img className='pr-5 cursor-pointer' src={upload_folder} onClick={()=>setIscreatingFolder(true)}/>
       </div>
       <div className='max h-40 overflow-y-auto flex flex-col gap-3'>
       {isCreatingFolder &&(
-        <input autoFocus value={newFolderName} onChange={(e)=>setNewFolderName(e.target.value)} placeholder='Enter Folder Name' onKeyDown={(e)=>{
+        <div className='px-3 pt-3 flex gap-3'>
+        <img src ={openFolder} className='h-5 w-5'/>
+        <input className='text-white border border-white/40 rounded outline-none ' autoFocus
+        value={newFolderName} onChange={(e)=>setNewFolderName(e.target.value)}
+         placeholder='Enter Folder Name' onKeyDown={(e)=>{
           if(e.key==="Enter"){
             createFolder()
           }
+        }} onBlur={()=>{
+          setIscreatingFolder(false)
+          setNewFolderName("")
         }}/>
+        </div>
       )}
       {folder.map((folder)=>{
         const isActive = folder.id===folderId
