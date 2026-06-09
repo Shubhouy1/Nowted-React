@@ -6,12 +6,13 @@ import MoreSection from "./More"
 type SideBarProps ={
     setfolderName  : React.Dispatch<React.SetStateAction<string>>
     refreshNotes : number
+    setRefreshNotes: React.Dispatch<React.SetStateAction<number>>
 }
 
-function Sidebar ({setfolderName,refreshNotes} : SideBarProps){
+function Sidebar ({setfolderName,refreshNotes,setRefreshNotes} : SideBarProps){
     return (
    <aside className='flex flex-col gap-6 h-full overflow-y-auto'>
-    <SidebarItem />
+    <SidebarItem setRefreshNotes ={setRefreshNotes}/>
     {/* recent section */}
     <Recent refreshNotes ={refreshNotes}/>
 

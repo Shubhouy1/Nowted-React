@@ -9,7 +9,7 @@ function AppLayout(){
     const [refreshNotes, setRefreshNotes] = useState<number>(0)
     return (
     <div className ="grid grid-cols-[300px_350px_1fr] bg-(--background-color)">
-       <Sidebar setfolderName = {setfolderName} refreshNotes={refreshNotes}/>
+       <Sidebar setfolderName = {setfolderName} refreshNotes={refreshNotes} setRefreshNotes={setRefreshNotes}/>
        <FolderList folderName = {folderName} refreshNotes={refreshNotes}/>
        <Editorpanel setRefreshNotes={setRefreshNotes}/>
     </div>

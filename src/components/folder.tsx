@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import api from '../api/axios'
 import { Link } from 'react-router-dom'
 import { useParams,useNavigate,useLocation} from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
 type FolderSectionProps={
    setfolderName  : React.Dispatch<React.SetStateAction<string>>
@@ -18,6 +20,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
   const {folderId} = useParams()
   const navigate = useNavigate()
   const location = useLocation()
+  const {setCurrSelectedFolderId} =useContext(UserContext)
 
   async function getFolders(){
     try{
@@ -36,6 +39,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
     )
       if(currFolder){
         setfolderName(currFolder.name)
+        setCurrSelectedFolderId(currFolder.id)
       }
   },[folderId,folder])
   useEffect(()=>{

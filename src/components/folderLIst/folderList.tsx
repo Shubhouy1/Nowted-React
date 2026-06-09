@@ -13,6 +13,7 @@ function FolderList ({folderName,refreshNotes}:folderListProps){
   const [notes,setNotes] = useState<Note[]>([])
   
   useEffect(()=>{
+    console.log(refreshNotes)
     async function getNotes(){
       try{
         const response=await api.get<GetNotesResponseType>(`/notes?folderId=${folderId}&page=1&limit=10`);
