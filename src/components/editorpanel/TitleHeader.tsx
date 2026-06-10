@@ -3,13 +3,33 @@ import deleteIcon from '../../assets/menu_delete.svg'
 import { useState } from 'react'
 import menuIcon from '../../assets/Frame 1.svg'
 import favorite from '../../assets/menu_favourite.svg'
+import api from '../../api/axios'
+import { useParams,useNavigate } from 'react-router-dom'
+
 
 type titleProps ={
     titleText:string
     setTitle :React.Dispatch<React.SetStateAction<string>>
+    noteId : string
+    setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
 }
-function Title({titleText, setTitle}:titleProps){
+function Title({titleText, setTitle,noteId,setRefreshNotes}:titleProps){
     const [showMenu, setShowMenu]=useState<boolean>(false)
+    const navigate =useNavigate()
+    const {folderId} = useParams()
+    async function deleteNote(){
+        if(!noteId){
+            return
+        }
+        try{
+            await api.delete(`/notes/${noteId}`)
+            console.log("Deleted")
+            setRefreshNotes(prev=>prev+1)
+            navigate(`/folder/${folderId}`)
+        }catch(error){
+            console.log(error)
+        }
+    }
     return (
         <div className='flex  justify-between h-auto w- ull px-7 pt-7'>
           <input value={titleText} onChange={(e)=>setTitle(e.target.value)} className='text-white font-semibold text-2xl outline-none'/>
@@ -30,7 +50,7 @@ function Title({titleText, setTitle}:titleProps){
              </div>
              <div className='h-0.5 w-full bg-(--menu-underline)'>
           </div>
-             <div className='flex gap-3 px-2 cursor-pointer'>
+             <div className='flex gap-3 px-2 cursor-pointer' onClick={deleteNote}>
                 <img className='h-5 w-5 pt-1 ' src={deleteIcon} />
                 <span>Delete</span>
              </div>

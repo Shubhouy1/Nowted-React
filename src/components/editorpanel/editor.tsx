@@ -93,7 +93,7 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
     }
     return (
         <div className='h-screen overflow-y-auto w-full flex flex-col gap-5'>
-         <Title titleText={title} setTitle ={setTitle}/>
+         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} setRefreshNotes ={setRefreshNotes}/>
          <Info createdAt ={note?.createdAt} folder ={note?.folder?.name}/>
          <Description content ={content} setContent={setContent}/>
         </div>

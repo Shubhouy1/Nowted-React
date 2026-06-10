@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import Editorpanel from '../components/editorpanel/editor'
 import FolderList from '../components/folderLIst/folderList'
