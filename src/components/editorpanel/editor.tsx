@@ -16,6 +16,9 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
     const [note ,setNote] = useState<Note| null>(null)
     const [title,setTitle] = useState<string>("")
     const [content,setContent] = useState<string>("")
+    const [showRestore, setShowRestore]  = useState<boolean>(false)
+    const [deletedNoteTitle,setDeletedNoteTitle]= useState<string>("")
+    const [deletedNoteId, setDeletedNoteId] = useState<string>("")
     useEffect(()=>{
         async function fetchNote(){
             if(!noteId){
@@ -78,7 +81,7 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
            </div>
         )
     }
-    if(note?.deletedAt){
+    if(note?.id===deletedNoteId){
         return (
             <div className='flex flex-col justify-center items-center gap-2 h-screen'>
              <img src={clock} className='w-20 h-20'></img>
@@ -93,7 +96,10 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
     }
     return (
         <div className='h-screen overflow-y-auto w-full flex flex-col gap-5'>
-         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} setRefreshNotes ={setRefreshNotes}/>
+         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} 
+         setRefreshNotes ={setRefreshNotes} setShowRestore={setShowRestore} 
+         setDeletedNoteTitle ={setDeletedNoteTitle} setDeletedNoteId = {setDeletedNoteId}
+         />
          <Info createdAt ={note?.createdAt} folder ={note?.folder?.name}/>
          <Description content ={content} setContent={setContent}/>
         </div>

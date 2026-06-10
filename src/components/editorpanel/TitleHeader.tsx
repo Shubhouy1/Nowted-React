@@ -12,8 +12,11 @@ type titleProps ={
     setTitle :React.Dispatch<React.SetStateAction<string>>
     noteId : string
     setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
+    setShowRestore : React.Dispatch<React.SetStateAction<boolean>>
+    setDeletedNoteTitle : React.Dispatch<React.SetStateAction<string>>
+    setDeletedNoteId : React.Dispatch<React.SetStateAction<string>>
 }
-function Title({titleText, setTitle,noteId,setRefreshNotes}:titleProps){
+function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setShowRestore,setDeletedNoteTitle}:titleProps){
     const [showMenu, setShowMenu]=useState<boolean>(false)
     const navigate =useNavigate()
     const {folderId} = useParams()
@@ -23,9 +26,12 @@ function Title({titleText, setTitle,noteId,setRefreshNotes}:titleProps){
         }
         try{
             await api.delete(`/notes/${noteId}`)
+            setDeletedNoteId(noteId)
+            setDeletedNoteTitle(titleText)
+            setShowRestore(true)
             console.log("Deleted")
             setRefreshNotes(prev=>prev+1)
-            navigate(`/folder/${folderId}`)
+            // navigate(`/folders/${folderId}`)
         }catch(error){
             console.log(error)
         }
