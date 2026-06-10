@@ -40,8 +40,8 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
     <div className='px-3 '>
       <div className="transition-all duration-300 ease-in-out">
       {!isSearch ? (
-      <button onClick={createNote} className="w-full h-10 bg-white/5 rounded p-2.5 flex items-center justify-center gap-2 text-sm">
-        <p className='text-white font-sans'>+ New Note</p>
+      <button onClick={createNote} className="w-full h-10 bg-white/5 rounded p-2.5 flex items-center justify-center gap-2 text-sm cursor-pointer">
+        <p className='text-white font-sans '>+ New Note</p>
       </button>
       ):(
         <input autoFocus value={search} onChange={(e)=>setSearch(e.target.value)}
