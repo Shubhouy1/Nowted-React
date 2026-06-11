@@ -61,6 +61,7 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
         try{
             await api.post(`/notes/${deletedNoteId}/restore`)
             setShowRestore(false)
+            setDeletedNoteId("")
             setRefreshNotes(prev=>prev+1)
         }catch(error){
             console.log(error)
