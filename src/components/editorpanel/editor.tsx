@@ -57,6 +57,16 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
            console.log(error)
         }
     }
+    async function restoreNote() {
+        try{
+            await api.post(`/notes/${deletedNoteId}/restore`)
+            setShowRestore(false)
+            setRefreshNotes(prev=>prev+1)
+        }catch(error){
+            console.log(error)
+        }
+        
+    }
     useEffect(()=>{
         if(!note) return
         if(title===note.title && content ===note.content){
@@ -84,12 +94,12 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
     if(note?.id===deletedNoteId){
         return (
             <div className='flex flex-col justify-center items-center gap-2 h-screen'>
-             <img src={clock} className='w-20 h-20'></img>
-             <div className='flex flex-col justify-center items-center gap-2'>
+             <img src={clock} className='w-15 h-15'></img>
+             <div className='flex flex-col justify-center items-center gap-1'>
              <p className='font-semibold text-white text-2xl'> Restore "{note.title}"</p>
              <p className='font-semibold text-white/60 text-sm'>Don't want to lose this note? It's not too late! Just click the 'Restore' </p>
              <p className='font-semibold text-white/60 text-sm'>button and it will be added back to your list. It's that simple.</p>
-             <button className='rounded p-3 bg-(--select-recent)'>Restore</button>
+             <button className='rounded p-2 bg-(--select-recent) text-white' onClick={restoreNote}>Restore</button>
              </div>
            </div>
         )
