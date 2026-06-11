@@ -34,7 +34,6 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
             setShowRestore(true)
             console.log("Deleted")
             setRefreshNotes(prev=>prev+1)
-            // navigate(`/folders/${folderId}`)
         }catch(error){
             console.log(error)
         }
@@ -53,6 +52,24 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
             console.log(error)
         }
     }
+
+    async function archiveNote(){
+        if(!noteId){
+            return
+        }
+        try{
+            await api.patch(`/notes/${noteId}`,{
+                isArchived : true
+            })
+            setShowMenu(false)
+            setRefreshNotes(prev=>prev+1)
+            navigate(`/folders/${folderId}`)
+            
+        }catch(error){
+            console.log(error)
+        }
+    }
+
 
     useEffect(()=>{
         function handleClickOutside(e:MouseEvent){
@@ -78,7 +95,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
                 <img className='h-5 w-5 pt-1 ' src={favorite} />
                 <span>{isFavorite ?"Remove from favorites" :"Add to favorites"}</span>
              </div>
-             <div className='flex gap-3 px-2 cursor-pointer'>
+             <div className='flex gap-3 px-2 cursor-pointer' onClick={archiveNote}>
                 <img className='h-5 w-5 pt-1 ' src={archived} />
                 <span>Archived</span>
              </div>

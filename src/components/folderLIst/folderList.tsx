@@ -1,6 +1,6 @@
 import Notecard from "./notecard"
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useLocation } from "react-router-dom"
 import api from "../../api/axios"
 import type { Note,GetNotesResponseType } from "../../types/Note"
 
@@ -11,12 +11,26 @@ type folderListProps={
 function FolderList ({folderName,refreshNotes}:folderListProps){
   const {folderId,noteId} = useParams()
   const [notes,setNotes] = useState<Note[]>([])
-  
+  const location = useLocation()
+  const isFavoritePage = location.pathname.startsWith("/favorites")
+  const isArchivedPage = location.pathname.startsWith("/archived")
+  const isTrashPage = location.pathname.startsWith("/trash")
   useEffect(()=>{
     console.log(refreshNotes)
     async function getNotes(){
       try{
-        const response=await api.get<GetNotesResponseType>(`/notes?folderId=${folderId}&page=1&limit=10`);
+        let url =""
+        if(isFavoritePage){
+          url="/notes?favorite=true"
+        }
+        if(isArchivedPage){
+          url="/notes?archived=true"
+        }
+        if(isTrashPage){
+          url="/notes?deleted=true"
+        }
+      
+        const response=await api.get<GetNotesResponseType>(url);
         setNotes(response.data.notes)
         console.log(response.data.notes)
       }catch(error){
