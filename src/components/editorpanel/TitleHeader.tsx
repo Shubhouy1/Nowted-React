@@ -11,12 +11,14 @@ type titleProps ={
     titleText:string
     setTitle :React.Dispatch<React.SetStateAction<string>>
     noteId : string
+    isFavorite : boolean
     setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
     setShowRestore : React.Dispatch<React.SetStateAction<boolean>>
     setDeletedNoteTitle : React.Dispatch<React.SetStateAction<string>>
     setDeletedNoteId : React.Dispatch<React.SetStateAction<string>>
 }
-function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setShowRestore,setDeletedNoteTitle}:titleProps){
+function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
+    setShowRestore,setDeletedNoteTitle,isFavorite}:titleProps){
     const [showMenu, setShowMenu]=useState<boolean>(false)
     const navigate =useNavigate()
     const {folderId} = useParams()
@@ -43,10 +45,10 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
         }
         try{
             await api.patch(`/notes/${noteId}`,{
-                isFavorite :true
+                isFavorite : !isFavorite
             })
-            setRefreshNotes(prev=>prev+1)
             setShowMenu(false)
+            setRefreshNotes(prev=>prev+1)
         }catch(error){
             console.log(error)
         }
@@ -74,7 +76,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
              <div className='flex flex-col gap-2'>
                 <div className='flex gap-3 px-2 cursor-pointer' onClick={toggleFavorute}>
                 <img className='h-5 w-5 pt-1 ' src={favorite} />
-                <span>Add to favorites</span>
+                <span>{isFavorite ?"Remove from favorites" :"Add to favorites"}</span>
              </div>
              <div className='flex gap-3 px-2 cursor-pointer'>
                 <img className='h-5 w-5 pt-1 ' src={archived} />

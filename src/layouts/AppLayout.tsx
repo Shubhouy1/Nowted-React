@@ -10,7 +10,7 @@ function AppLayout(){
     <div className ="grid grid-cols-[300px_350px_1fr] bg-(--background-color)">
        <Sidebar setfolderName = {setfolderName} refreshNotes={refreshNotes} setRefreshNotes={setRefreshNotes}/>
        <FolderList folderName = {folderName} refreshNotes={refreshNotes}/>
-       <Editorpanel setRefreshNotes={setRefreshNotes}/>
+       <Editorpanel setRefreshNotes={setRefreshNotes} refreshNotes={refreshNotes}/>
     </div>
     )
 }

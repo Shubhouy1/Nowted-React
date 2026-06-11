@@ -10,8 +10,9 @@ import clock from '../../assets/clock.svg'
 
 type EditorPanelProps={
     setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
+    refreshNotes : number
 }
-function Editorpanel({setRefreshNotes}:EditorPanelProps){
+function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
     const {noteId} = useParams()
     const [note ,setNote] = useState<Note| null>(null)
     const [title,setTitle] = useState<string>("")
@@ -32,7 +33,7 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
             }
         }
         fetchNote()
-    },[noteId])
+    },[noteId,refreshNotes])
     useEffect(()=>{
         if(note){
             setTitle(note.title)
@@ -107,7 +108,7 @@ function Editorpanel({setRefreshNotes}:EditorPanelProps){
     }
     return (
         <div className='h-screen overflow-y-auto w-full flex flex-col gap-5'>
-         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} 
+         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} isFavorite = {note?.isFavorite}
          setRefreshNotes ={setRefreshNotes} setShowRestore={setShowRestore} 
          setDeletedNoteTitle ={setDeletedNoteTitle} setDeletedNoteId = {setDeletedNoteId}
          />
