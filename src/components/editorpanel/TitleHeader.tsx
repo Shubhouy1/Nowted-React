@@ -1,6 +1,6 @@
 import archived from '../../assets/menu_archived.svg'
 import deleteIcon from '../../assets/menu_delete.svg'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import menuIcon from '../../assets/Frame 1.svg'
 import favorite from '../../assets/menu_favourite.svg'
 import api from '../../api/axios'
@@ -20,6 +20,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
     const [showMenu, setShowMenu]=useState<boolean>(false)
     const navigate =useNavigate()
     const {folderId} = useParams()
+    const menuRef = useRef<HTMLDivElement>(null)
     async function deleteNote(){
         if(!noteId){
             return
@@ -36,11 +37,23 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
             console.log(error)
         }
     }
+
+    useEffect(()=>{
+        function handleClickOutside(e:MouseEvent){
+            if(menuRef.current && !menuRef.current.contains(e.target as Node)){
+                setShowMenu(false)
+            }
+        }
+        document.addEventListener("mousedown",handleClickOutside)
+        return ()=>{
+            document.removeEventListener("mousedown",handleClickOutside)
+        }
+    },[])
     return (
         <div className='flex  justify-between h-auto w- ull px-7 pt-7'>
           <input value={titleText} onChange={(e)=>setTitle(e.target.value)} className='text-white font-semibold text-2xl outline-none'/>
           <img className='h-7 w-7 pt-1 cursor-pointer' src={menuIcon} onClick={()=>setShowMenu(prev=>!prev)}/>
-            <div className={`flex flex-col absolute rounded p-3 text-white right-8 top-16 bg-(--menu) justify-between gap-4
+            <div ref= {menuRef} className={`flex flex-col absolute rounded p-3 text-white right-8 top-16 bg-(--menu) justify-between gap-4
             transition-all duration-300 ease-in-out ${
                 showMenu ? "opacity-100 scale-100" :"opacity-0 scale-95 pointer-events-none"
             }`}>
