@@ -37,6 +37,20 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
             console.log(error)
         }
     }
+    async function toggleFavorute(){
+        if(!noteId){
+            return
+        }
+        try{
+            await api.patch(`/notes/${noteId}`,{
+                isFavorite :true
+            })
+            setRefreshNotes(prev=>prev+1)
+            setShowMenu(false)
+        }catch(error){
+            console.log(error)
+        }
+    }
 
     useEffect(()=>{
         function handleClickOutside(e:MouseEvent){
@@ -58,7 +72,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,setS
                 showMenu ? "opacity-100 scale-100" :"opacity-0 scale-95 pointer-events-none"
             }`}>
              <div className='flex flex-col gap-2'>
-                <div className='flex gap-3 px-2 cursor-pointer'>
+                <div className='flex gap-3 px-2 cursor-pointer' onClick={toggleFavorute}>
                 <img className='h-5 w-5 pt-1 ' src={favorite} />
                 <span>Add to favorites</span>
              </div>
