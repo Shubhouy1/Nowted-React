@@ -1,7 +1,7 @@
 import trash from '../assets/Trash.svg'
 import archieved from '../assets/archived.svg'
 import star from '../assets/star.svg'
-import { useNavigate,useLocation } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 
 function MoreSection (){
   const navigate = useNavigate()

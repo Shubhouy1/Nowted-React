@@ -7,6 +7,7 @@ import type { GetNoteResponseType, Note } from '../../types/Note'
 import api from '../../api/axios'
 import document_icon from '../../assets/note.svg'
 import clock from '../../assets/clock.svg'
+import { useLocation } from 'react-router-dom'
 
 type EditorPanelProps={
     setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
@@ -17,9 +18,10 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
     const [note ,setNote] = useState<Note| null>(null)
     const [title,setTitle] = useState<string>("")
     const [content,setContent] = useState<string>("")
-    const [showRestore, setShowRestore]  = useState<boolean>(false)
-    const [deletedNoteTitle,setDeletedNoteTitle]= useState<string>("")
+  
     const [deletedNoteId, setDeletedNoteId] = useState<string>("")
+    const location = useLocation()
+    const isTrash = location.pathname.startsWith("/trash")
     useEffect(()=>{
         async function fetchNote(){
             if(!noteId){
@@ -60,8 +62,7 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
     }
     async function restoreNote() {
         try{
-            await api.post(`/notes/${deletedNoteId}/restore`)
-            setShowRestore(false)
+            await api.post(`/notes/${note?.id}/restore`)
             setDeletedNoteId("")
             setRefreshNotes(prev=>prev+1)
         }catch(error){
@@ -93,15 +94,15 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
            </div>
         )
     }
-    if(note?.id===deletedNoteId){
+    if(note?.id===deletedNoteId || isTrash){
         return (
             <div className='flex flex-col justify-center items-center gap-2 h-screen'>
              <img src={clock} className='w-15 h-15'></img>
              <div className='flex flex-col justify-center items-center gap-1'>
-             <p className='font-semibold text-white text-2xl'> Restore "{note.title}"</p>
+             <p className='font-semibold text-white text-2xl'> Restore "{note?.title}"</p>
              <p className='font-semibold text-white/60 text-sm'>Don't want to lose this note? It's not too late! Just click the 'Restore' </p>
              <p className='font-semibold text-white/60 text-sm'>button and it will be added back to your list. It's that simple.</p>
-             <button className='rounded p-2 bg-(--select-recent) text-white' onClick={restoreNote}>Restore</button>
+             <button className='rounded p-2 bg-(--select-recent) text-white cursor-pointer' onClick={restoreNote}>Restore</button>
              </div>
            </div>
         )
@@ -109,8 +110,8 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
     return (
         <div className='h-screen overflow-y-auto w-full flex flex-col gap-5'>
          <Title titleText={title} setTitle ={setTitle}noteId={note?.id} isFavorite = {note?.isFavorite}
-         setRefreshNotes ={setRefreshNotes} setShowRestore={setShowRestore} 
-         setDeletedNoteTitle ={setDeletedNoteTitle} setDeletedNoteId = {setDeletedNoteId}
+         setRefreshNotes ={setRefreshNotes} 
+          setDeletedNoteId = {setDeletedNoteId}
          />
          <Info createdAt ={note?.createdAt} folder ={note?.folder?.name}/>
          <Description content ={content} setContent={setContent}/>
