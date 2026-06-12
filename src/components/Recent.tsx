@@ -5,6 +5,8 @@ import api from '../api/axios'
 import type { recentNotes } from '../types/recentNote'
 import type { GetRecentNotesResponseType } from '../types/recentNote'
 import { Link ,useParams } from "react-router-dom";
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext'
 
 type RecentProps={
   refreshNotes : number
@@ -12,6 +14,7 @@ type RecentProps={
 function Recent({refreshNotes} : RecentProps){
   const[recentNote , setRecentNote]= useState<recentNotes[]>([])
   const {noteId} =useParams();
+  const {setActiveView} = useContext(UserContext)
     useEffect(()=>{
       async function GetRecent(){
         try{
@@ -29,7 +32,7 @@ function Recent({refreshNotes} : RecentProps){
       {recentNote.map((note)=>{
         const isActive = note.id === noteId;
         return (
-        <Link key={note.id} to={`/notes/${note.id}`}>
+        <Link key={note.id} to={`/notes/${note.id}`} onClick={()=>setActiveView("folder")}>
         <div className={`flex flex-row gap-3 py-2 pl-3 transition-all duration-200 ${ isActive ? "bg-(--select-recent)": ""}`}>
          <img src={isActive ? document:documentNS} className='h-5 w-5'/>
          <p className='text-sm font-sans text-white/60 font-semibold p-'>{note.title}</p>

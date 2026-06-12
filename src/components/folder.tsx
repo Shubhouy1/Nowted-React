@@ -20,7 +20,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
   const {folderId} = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  const {setCurrSelectedFolderId} =useContext(UserContext)
+  const {setCurrSelectedFolderId, setActiveView} =useContext(UserContext)
 
   async function getFolders(){
     try{
@@ -40,6 +40,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
       if(currFolder){
         setfolderName(currFolder.name)
         setCurrSelectedFolderId(currFolder.id)
+        setActiveView("folder")
       }
   },[folderId,folder])
   useEffect(()=>{

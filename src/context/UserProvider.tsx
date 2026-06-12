@@ -7,10 +7,12 @@ type UserProviderProps ={
 
 function UserProvider ({children}:UserProviderProps){
     const [currSelectedFolderId, setCurrSelectedFolderId] = useState<string|null>(null)
+    const[activeView,setActiveView] = useState<"folder"|"favorites"|"archived"|"trash">("folder")
 
     return(
         <UserContext.Provider value={{
-            currSelectedFolderId,setCurrSelectedFolderId
+            currSelectedFolderId,setCurrSelectedFolderId,
+            activeView,setActiveView
         }}>
             {children}
         </UserContext.Provider>
