@@ -10,8 +10,7 @@ type SideBarItemProps={
 
 function SidebarItem({setRefreshNotes} : SideBarItemProps){
   const [isSearch , setIsSearch] = useState<boolean>(false)
-  const [search,setSearch] =useState<string>("")
-  const {currSelectedFolderId} = useContext(UserContext)
+  const {currSelectedFolderId,search,setSearch} = useContext(UserContext)
 
   async function createNote(){
     if(!currSelectedFolderId){
