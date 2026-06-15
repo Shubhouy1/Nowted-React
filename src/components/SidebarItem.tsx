@@ -1,8 +1,9 @@
 import Logo from "../assets/Group 1.svg"
 import searchIcon from "../assets/Frame.svg"
-import { useState,useContext } from "react"
+import { useState,useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 import api from "../api/axios"
+import type { Note } from "../types/Note"
 
 type SideBarItemProps={
   setRefreshNotes: React.Dispatch<React.SetStateAction<number>>
@@ -10,9 +11,11 @@ type SideBarItemProps={
 
 function SidebarItem({setRefreshNotes} : SideBarItemProps){
   const [isSearch , setIsSearch] = useState<boolean>(false)
-  const {currSelectedFolderId,search,setSearch} = useContext(UserContext)
+  const {currSelectedFolderId} = useContext(UserContext)
   const[isCreating, setIsCreating] = useState<boolean>(false)
-
+  const[search ,setSearch]= useState<string>("")
+  const[searchedNotes, setSeearchedNotes]=useState<Note[]>([])
+  const[allNotes ,setAllNotes]=useState<Note[]>([])
   async function createNote(){
     if(!currSelectedFolderId || isCreating){
       return
@@ -34,6 +37,28 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       setIsCreating(false)
     }
   }
+  useEffect(()=>{
+    async function getAllNotes(){
+      try{
+        const response= await api.get("/notes?limit=400")
+        setAllNotes(response.data.notes)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    getAllNotes()
+  })
+    useEffect(()=>{
+      const value = search.trim().toLowerCase()
+      if(!value){
+        setSeearchedNotes([])
+        return
+      }
+      const matches = allNotes.filter((note=>
+        note.title?.toLowerCase().includes(value)
+      ))
+      setSeearchedNotes(matches)
+    },[search,allNotes])
     return (
     <div className="flex flex-col gap-4">
     <div className='flex flex-row justify-between pt-3 w-full'>
@@ -58,6 +83,15 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
         />
       )}
       </div>
+      {search.trim()&&(
+         <div className="w-full h-30 overflow-y-auto rounded-md z-50 bg-(--note-card)">
+          {searchedNotes.map(note=>(
+            <div className="text-white" key = {note.id}>
+              {note.title}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
     </div>
     )
