@@ -47,6 +47,12 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
         if(!noteId|| !note){
             return
         }
+        if(!title.trim() && !content.trim()){
+            return
+        }
+        if(title===note.title && content === note.content){
+            return
+        }
         try{
             await api.patch(`/notes/${noteId}`,{
                 folderId :note.folder.id,

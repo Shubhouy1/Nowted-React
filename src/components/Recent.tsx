@@ -35,7 +35,7 @@ function Recent({refreshNotes} : RecentProps){
         <Link key={note.id} to={`/notes/${note.id}`} onClick={()=>setActiveView("folder")}>
         <div className={`flex flex-row gap-3 py-2 pl-3 transition-all duration-200 ${ isActive ? "bg-(--select-recent)": ""}`}>
          <img src={isActive ? document:documentNS} className='h-5 w-5'/>
-         <p className='text-sm font-sans text-white/60 font-semibold p-'>{note.title}</p>
+        <p className='text-sm font-sans text-white/60 font-semibold p-'>{note.title ? note.title : "Untitled" }</p>
         </div>
         </Link>
         )

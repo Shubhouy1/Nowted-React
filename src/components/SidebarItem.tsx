@@ -11,12 +11,14 @@ type SideBarItemProps={
 function SidebarItem({setRefreshNotes} : SideBarItemProps){
   const [isSearch , setIsSearch] = useState<boolean>(false)
   const {currSelectedFolderId,search,setSearch} = useContext(UserContext)
+  const[isCreating, setIsCreating] = useState<boolean>(false)
 
   async function createNote(){
-    if(!currSelectedFolderId){
+    if(!currSelectedFolderId || isCreating){
       return
     }
     try{
+      setIsCreating(true)
       const response =await api.post("/notes",{
         folderId : currSelectedFolderId,
         title : "Untitled",
@@ -28,6 +30,8 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       console.log(response.data)
     }catch(error){
       console.log(error)
+    }finally{
+      setIsCreating(false)
     }
   }
     return (

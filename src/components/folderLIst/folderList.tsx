@@ -4,6 +4,8 @@ import { useParams, Link, useLocation } from "react-router-dom"
 import api from "../../api/axios"
 import type { Note,GetNotesResponseType } from "../../types/Note"
 
+
+
 type folderListProps={
   folderName : string
   refreshNotes : number
@@ -30,7 +32,7 @@ function FolderList ({folderName,refreshNotes}:folderListProps){
         if(isTrashPage){
           url="/notes?deleted=true"
         }
-      
+
         const response=await api.get<GetNotesResponseType>(url);
         setNotes(response.data.notes)
         console.log(response.data.notes)
