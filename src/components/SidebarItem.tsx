@@ -1,6 +1,6 @@
 import Logo from "../assets/Group 1.svg"
 import searchIcon from "../assets/Frame.svg"
-import { useState,useContext, useEffect } from "react"
+import { useState,useContext, useEffect,useRef } from "react"
 import { UserContext } from "../context/UserContext"
 import api from "../api/axios"
 import type { Note } from "../types/Note"
@@ -17,6 +17,7 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
   const[search ,setSearch]= useState<string>("")
   const[searchedNotes, setSeearchedNotes]=useState<Note[]>([])
   const[allNotes ,setAllNotes]=useState<Note[]>([])
+  const searchRef= useRef<HTMLDivElement| null>(null)
   const navigate =useNavigate()
   async function createNote(){
     if(!currSelectedFolderId || isCreating){
@@ -67,13 +68,29 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       setIsSearch(false)
       navigate(`/folders/${note.folderId}/notes/${note.id}`)
     }
+    useEffect(()=>{
+      function handleClickOutside(e:MouseEvent){
+        if(searchRef.current&& !searchRef.current.contains(e.target as Node)){
+          setIsSearch(false)
+          setSearch("")
+        }
+      }
+      document.addEventListener("mousedown",handleClickOutside)
+      return()=>{
+        document.removeEventListener("mousedown",handleClickOutside)
+      }
+    },[])
     return (
     <div className="flex flex-col gap-4">
     <div className='flex flex-row justify-between pt-3 w-full'>
       <img className='w-30 pl-3'src={Logo}/>
-      <img className='w-10 h-8 pr-5 pt-2 cursor-pointer ' src={searchIcon} onClick={()=>setIsSearch(!isSearch)}/>
+      <img className='w-10 h-8 pr-5 pt-2 cursor-pointer ' src={searchIcon} onClick={()=>{
+        if(isSearch){
+          setSearch("")
+        }
+        setIsSearch(!isSearch)}}/>
     </div>
-    <div className='px-3 '>
+    <div className='px-3' ref={searchRef}>
       <div className="transition-all duration-300 ease-in-out">
       {!isSearch ? (
       <button onClick={createNote} className="w-full h-10 bg-white/5 rounded p-2.5 flex items-center justify-center gap-2 text-sm cursor-pointer">
