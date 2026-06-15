@@ -4,6 +4,7 @@ import { useState,useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 import api from "../api/axios"
 import type { Note } from "../types/Note"
+import { useNavigate } from "react-router-dom"
 
 type SideBarItemProps={
   setRefreshNotes: React.Dispatch<React.SetStateAction<number>>
@@ -16,6 +17,7 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
   const[search ,setSearch]= useState<string>("")
   const[searchedNotes, setSeearchedNotes]=useState<Note[]>([])
   const[allNotes ,setAllNotes]=useState<Note[]>([])
+  const navigate =useNavigate()
   async function createNote(){
     if(!currSelectedFolderId || isCreating){
       return
@@ -59,6 +61,12 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       ))
       setSeearchedNotes(matches)
     },[search,allNotes])
+
+    function handleSearchClick(note : Note){
+      setSearch("")
+      setIsSearch(false)
+      navigate(`/folders/${note.folderId}/notes/${note.id}`)
+    }
     return (
     <div className="flex flex-col gap-4">
     <div className='flex flex-row justify-between pt-3 w-full'>
@@ -86,7 +94,7 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       {search.trim()&&(
          <div className="w-full h-30 overflow-y-auto rounded-md z-50 bg-(--note-card)">
           {searchedNotes.map(note=>(
-            <div className="text-white" key = {note.id}>
+            <div className="text-white p-2 cursor-pointer hover:bg-(--selected-notecard)" key = {note.id} onClick={()=>handleSearchClick(note)}>
               {note.title}
             </div>
           ))}
