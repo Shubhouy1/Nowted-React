@@ -84,11 +84,13 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
     <div className="flex flex-col gap-2">
     <div className='flex flex-row justify-between pt-3 w-full'>
       <img className='w-30 pl-3'src={Logo}/>
+      <div ref={searchRef} >
       <img className='w-10 h-8 pr-5 pt-2 cursor-pointer ' src={searchIcon} onClick={()=>{
         if(isSearch){
           setSearch("")
         }
         setIsSearch(!isSearch)}}/>
+        </div>
     </div>
     <div className='px-3' ref={searchRef}>
       <div className="transition-all duration-300 ease-in-out">

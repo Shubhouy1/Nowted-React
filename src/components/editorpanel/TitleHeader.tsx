@@ -85,7 +85,9 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
     return (
         <div className='flex  justify-between h-auto w- ull px-7 pt-7'>
           <input value={titleText} onChange={(e)=>setTitle(e.target.value)} className='text-white font-semibold text-2xl outline-none'/>
+          <div ref={menuRef}>
           <img className='h-7 w-7 pt-1 cursor-pointer' src={menuIcon} onClick={()=>setShowMenu(prev=>!prev)}/>
+          </div>
             <div ref= {menuRef} className={`flex flex-col absolute rounded p-3 text-white right-8 top-16 bg-(--menu) justify-between gap-4
             transition-all duration-300 ease-in-out ${
                 showMenu ? "opacity-100 scale-100" :"opacity-0 scale-95 pointer-events-none"
