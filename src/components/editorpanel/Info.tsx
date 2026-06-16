@@ -13,7 +13,7 @@ function Info({createdAt , folder}: InfoProps){
             <img className='w-6 h-6' src ={dateIcon}/>
             <div className='flex gap-30'>
             <span className='text-sm text-white/60 pt-0.5'> Date</span>
-            <span className='text-sm text-white/60 pt-0.5'>{date}</span>
+            <span className='text-sm text-white/60 pt-0.5 underline'>{date}</span>
             </div>
           </div>
           <div className='h-0.5 w-full bg-(--underline-color)'>

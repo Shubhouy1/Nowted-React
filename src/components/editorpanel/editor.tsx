@@ -115,10 +115,11 @@ function Editorpanel({setRefreshNotes,refreshNotes}:EditorPanelProps){
     }
     return (
         <div className='h-screen overflow-hidden w-full flex flex-col gap-5'>
-         <Title titleText={title} setTitle ={setTitle}noteId={note?.id} isFavorite = {note?.isFavorite}
-         setRefreshNotes ={setRefreshNotes} setDeletedNoteId = {setDeletedNoteId} isArchived = {note?.isArchived}
+        
+         <Title titleText={title} setTitle ={setTitle} noteId={note?.id ?? ""} isFavorite = {note?.isFavorite ?? false}
+         setRefreshNotes ={setRefreshNotes} setDeletedNoteId = {setDeletedNoteId} isArchived = {note?.isArchived ?? false}
          />
-         <Info createdAt ={note?.createdAt} folder ={note?.folder?.name}/>
+         <Info createdAt ={note?.createdAt ?? ""} folder ={note?.folder?.name ?? ""}/>
          <Description content ={content} setContent={setContent}/>
         </div>
     )

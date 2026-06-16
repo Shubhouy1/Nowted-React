@@ -47,7 +47,7 @@ function FolderSection ({setfolderName}:FolderSectionProps){
     if(location.pathname==="/"&& folder.length>0){
         const firstFolder = folder[0]
         setfolderName(firstFolder.name)
-        navigate(`/folders/${folder[0].id}`)
+        navigate(`/folders/${firstFolder.id}`)
       }
   },[folder,location.pathname])
 

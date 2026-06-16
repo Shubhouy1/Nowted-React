@@ -8,7 +8,7 @@ import { useParams,useNavigate } from 'react-router-dom'
 
 
 type titleProps ={
-    titleText:string
+    titleText:string 
     setTitle :React.Dispatch<React.SetStateAction<string>>
     noteId : string
     isFavorite : boolean
@@ -84,7 +84,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
     },[])
     return (
         <div className='flex  justify-between h-auto w- ull px-7 pt-7'>
-          <input value={titleText} onChange={(e)=>setTitle(e.target.value)} className='text-white font-semibold text-2xl outline-none'/>
+          <input value={titleText ?? ""} onChange={(e)=>setTitle(e.target.value)} className='text-white font-semibold text-2xl outline-none'/>
           <div ref={menuRef}>
           <img className='h-7 w-7 pt-1 cursor-pointer' src={menuIcon} onClick={()=>setShowMenu(prev=>!prev)}/>
           </div>
