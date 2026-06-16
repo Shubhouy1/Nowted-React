@@ -60,8 +60,11 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
             })
             setShowMenu(false)
             setRefreshNotes(prev=>prev+1)
+            if(folderId){
             navigate(`/folders/${folderId}`)
-            
+            }else{
+                navigate("/archived")
+            }
         }catch(error){
             console.log(error)
         }
@@ -94,7 +97,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
              </div>
              <div className='flex gap-3 px-2 cursor-pointer' onClick={archiveNote}>
                 <img className='h-5 w-5 pt-1 ' src={archived} />
-                <span>Archived</span>
+                <span>{isArchived ? "Unarchive" :"Archived"}</span>
              </div>
              </div>
              <div className='h-0.5 w-full bg-(--menu-underline)'>
