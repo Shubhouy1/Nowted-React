@@ -50,7 +50,7 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       }
     }
     getAllNotes()
-  })
+  },[])
     useEffect(()=>{
       const value = search.trim().toLowerCase()
       if(!value){
@@ -81,7 +81,7 @@ function SidebarItem({setRefreshNotes} : SideBarItemProps){
       }
     },[])
     return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
     <div className='flex flex-row justify-between pt-3 w-full'>
       <img className='w-30 pl-3'src={Logo}/>
       <img className='w-10 h-8 pr-5 pt-2 cursor-pointer ' src={searchIcon} onClick={()=>{

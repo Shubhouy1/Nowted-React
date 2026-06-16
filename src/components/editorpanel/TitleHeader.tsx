@@ -12,11 +12,12 @@ type titleProps ={
     setTitle :React.Dispatch<React.SetStateAction<string>>
     noteId : string
     isFavorite : boolean
+    isArchived : boolean
     setRefreshNotes : React.Dispatch<React.SetStateAction<number>>
     setDeletedNoteId : React.Dispatch<React.SetStateAction<string>>
 }
 function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
-    isFavorite}:titleProps){
+    isFavorite ,isArchived}:titleProps){
     const [showMenu, setShowMenu]=useState<boolean>(false)
     const navigate =useNavigate()
     const {folderId} = useParams()
@@ -55,7 +56,7 @@ function Title({titleText, setTitle,noteId,setRefreshNotes,setDeletedNoteId,
         }
         try{
             await api.patch(`/notes/${noteId}`,{
-                isArchived : true
+                isArchived : !isArchived
             })
             setShowMenu(false)
             setRefreshNotes(prev=>prev+1)

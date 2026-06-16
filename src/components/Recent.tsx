@@ -28,7 +28,7 @@ function Recent({refreshNotes} : RecentProps){
     },[refreshNotes])
     return (
     <div className='flex flex-col gap-1 ' >
-      <span className='text-left text-white/60 text-sm font-sans pl-3 pb-2 font-semibold '>Recents</span>
+      <span className='text-left text-white/60 text-sm font-sans pl-3 pb-1 font-semibold '>Recents</span>
       {recentNote.map((note)=>{
         const isActive = note.id === noteId;
         return (

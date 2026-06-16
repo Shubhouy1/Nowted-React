@@ -44,11 +44,11 @@ function FolderList ({folderName,refreshNotes}:folderListProps){
   },[folderId,refreshNotes,isArchivedPage,isFavoritePage,isTrashPage])
 
     return (
-        <div className='flex flex-col bg-(--folder-section) h-full gap-5'>
+        <div className='flex flex-col bg-(--folder-section) h-screen gap-5 overflow-y-auto overflow-hidden'>
         <div className='pt-5 pl-5'>
             <p className="text-[22px] font-semibold leading-none text-white">{isTrashPage?"Trash" : isArchivedPage ?"Archived" : isFavoritePage? "Favorite" : folderName}</p>
         </div >
-        <div className="px-5 flex flex-col gap-4">
+        <div className="px-5 flex flex-col gap-4 ">
         {notes.map((note)=>{
          const isActive = noteId ===note.id
          let notePath =`/folders/${folderId}/notes/${note.id}`

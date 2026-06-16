@@ -67,12 +67,12 @@ function FolderSection ({setfolderName}:FolderSectionProps){
     }
   }
     return (
-    <div className='flex flex-col gap-3'>
-      <div className="flex flex-row justify-between pt-2">
+    <div className='flex flex-col gap-2'>
+      <div className="flex flex-row justify-between pt-1">
        <p className='text-sm font-sans text-white/60 font-semibold px-3'>Folders</p>
        <img className='pr-5 cursor-pointer' src={upload_folder} onClick={()=>setIscreatingFolder(true)}/>
       </div>
-      <div className='max h-40 overflow-y-auto flex flex-col gap-3'>
+      <div className='max h-20 overflow-y-auto flex flex-col gap-2'>
       {isCreatingFolder &&(
         <div className='px-3 pt-3 flex gap-3'>
         <img src ={openFolder} className='h-5 w-5'/>
